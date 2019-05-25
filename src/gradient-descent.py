@@ -1,5 +1,8 @@
+# Use gradient descent to fit a line to a set of randomly generated points.
+
 from bokeh.plotting import figure, show, output_file, save
 import random
+from datetime import datetime
 
 # Co-efficients of a straight line
 a_org = 5
@@ -82,12 +85,13 @@ gd_b = random.random()
 i = 0
 max_i = 1000
 
+print ("The Time at the start of gd is {}. gd_a = {}. gd_b = {}".format(datetime.now(), gd_a, gd_b))
+
 # This is the part of the program that does gradient decent
 while err(gd_a, gd_b, points) > err_limit and (i < max_i):
     i = i + 1
     ase = avg_slope_err(points, gd_a, gd_b)
 
-    print ("In iteration {} gd_a is {}, gd_b is {}, avg_slope_err is {}, and error is {}.".format(i, gd_a, gd_b, ase, err(gd_a, gd_b, points)))
 
     # This utilizes the avg_slpoe_err function
     gd_a = gd_a - ase[0] * lr
@@ -96,6 +100,11 @@ while err(gd_a, gd_b, points) > err_limit and (i < max_i):
     # Plotting the line that each iteration ends up with
     plot_line(gd_a, gd_b, x_start, x_end, "Green")
 
+    if i % 10000 == 0:
+        print ("The Time at iteration # {} of gd is {}.".format(i, datetime.now()))
+
+print ("The Time at the end of gd is {}. gd_a = {}. gd_b = {}".format(datetime.now(), gd_a, gd_b))
+
 # Plotting the End product of gradient decent
 plot_line(gd_a, gd_b, x_start, x_end, "Black")
 
@@ -103,3 +112,9 @@ print ("The original a is {} and the original b is {}. The error for these value
 
 output_file("GD.html")
 save(f)
+
+### Sample output
+# The Time at the start of gd is 2019-05-25 10:19:34.542717. gd_a = 1. gd_b = 0.7369391386327541
+# The Time at the end of gd is 2019-05-25 10:19:35.450703. gd_a = 5.034315927456152. gd_b = 2.103378366383095
+# The original a is 5 and the original b is 3. The error for these values are 36.95959595959596
+###
